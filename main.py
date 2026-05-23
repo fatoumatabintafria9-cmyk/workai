@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -12,6 +13,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/", StaticFiles(directory=".", html=True), name="static")
+
 jobs = []
 
 class Job(BaseModel):
@@ -20,11 +23,6 @@ class Job(BaseModel):
     location: str
     salary: str
     experience: str
-
-
-@app.get("/")
-def home():
-    return {"message": "WorkAI Backend connecté 🚀"}
 
 
 @app.post("/create-job")
