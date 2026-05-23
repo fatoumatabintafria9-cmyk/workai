@@ -1,3 +1,5 @@
+const API = window.location.origin;
+
 function register(){
 showRoleChoice();
 }
@@ -29,7 +31,6 @@ document.body.innerHTML=`
 
 function employerJobs(){
 document.getElementById("result").innerHTML=`
-
 <div class="card">
 <h2>Publier une offre</h2>
 
@@ -40,7 +41,6 @@ document.getElementById("result").innerHTML=`
 <input id="experience" placeholder="Expérience">
 
 <button onclick="publishJob()">Publier</button>
-
 </div>
 `;
 }
@@ -55,7 +55,7 @@ salary:document.getElementById("salary").value,
 experience:document.getElementById("experience").value
 };
 
-await fetch("http://localhost:8000/create-job",{
+await fetch(`${API}/create-job`,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify(job)
@@ -70,7 +70,7 @@ fetchJobs();
 
 async function fetchJobs(){
 
-let response=await fetch("http://localhost:8000/jobs");
+let response=await fetch(`${API}/jobs`);
 let jobs=await response.json();
 
 let html=`
@@ -86,7 +86,7 @@ html+=`
 <p>${job.location}</p>
 <p>${job.salary}</p>
 <p>${job.experience}</p>
-<button>Postuler</button>
+<button onclick="alert('Candidature envoyée 🚀')">Postuler</button>
 </div>`;
 });
 
